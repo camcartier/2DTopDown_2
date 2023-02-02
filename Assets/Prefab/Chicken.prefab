@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 2960193702713945680}
   - component: {fileID: 2960193702713945679}
   - component: {fileID: 2960193702713945682}
+  - component: {fileID: 655430822155609008}
   m_Layer: 0
   m_Name: Chicken
-  m_TagString: Untagged
+  m_TagString: Meat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,10 +85,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab24b00c3e676b4bb307ab79b8cbfeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 200
+  _moveSpeed: 100
   _isWalking: 0
+  _isPecking: 0
   _walkTime: 1
   _waitTime: 5
+--- !u!114 &655430822155609008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929753151668566353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c70cf3b0f66224ba202abd85d52913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 0
+  _currentHealth: 1
+  _minHealth: 0
+  _slimeCollision: 1
+  _playerCollision: 1
+  _batCollision: 0
+  _spellCollision: 0
+  _onSlime: 0
+  _onPlayer: 0
+  _onBat: 0
+  _onChicken: 0
+  _deathparticles: {fileID: 25816176176835479, guid: fcff40c641639994880708d67f36a262, type: 3}
+  _collectible: {fileID: 4688928136210260754, guid: 5144af2f10ea221469c2f73ef7e15bc8, type: 3}
 --- !u!1 &2960193703972007020
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +188,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2092088210, guid: 430749f30c1417544a9c5c35b1f5bbb9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

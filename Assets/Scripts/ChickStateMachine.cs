@@ -5,7 +5,8 @@ using UnityEngine;
 enum ChickenStateMode
 {
     LOCOMOTION,
-    PECK
+    PECK,
+    WALK
 }
 
 public class ChickStateMachine : MonoBehaviour
@@ -18,7 +19,8 @@ public class ChickStateMachine : MonoBehaviour
 
     [SerializeField] public float _moveSpeed;
 
-    public bool _isWalking;
+    public bool _isWalking = true;
+    public bool _isPecking = false;
 
     public float _walkTime;
     private float _walkCounter;
@@ -52,17 +54,16 @@ public class ChickStateMachine : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-
         _walkCounter = _walkTime;
         _waitCounter = _waitTime;
-
-
-        ChooseDirection();
-
     }
 
     private void Update()
+    {
+        OnStateUpdate();
+    }
+
+    private void FixedUpdate()
     {
         if (_isWalking)
         {
@@ -71,16 +72,16 @@ public class ChickStateMachine : MonoBehaviour
             switch (_walkDirection)
             {
                 case 0:
-                    _rb2D.velocity = new Vector2(0, _moveSpeed * Time.deltaTime);
+                    _rb2D.velocity = new Vector2(0, _moveSpeed * Time.fixedDeltaTime);
                     break;
                 case 1:
-                    _rb2D.velocity = new Vector2(_moveSpeed * Time.deltaTime, 0);
+                    _rb2D.velocity = new Vector2(_moveSpeed * Time.fixedDeltaTime, 0);
                     break;
                 case 2:
-                    _rb2D.velocity = new Vector2(0, -(_moveSpeed * Time.deltaTime));
+                    _rb2D.velocity = new Vector2(0, -(_moveSpeed * Time.fixedDeltaTime));
                     break;
                 case 3:
-                    _rb2D.velocity = new Vector2(-(_moveSpeed * Time.deltaTime),0);
+                    _rb2D.velocity = new Vector2(-(_moveSpeed * Time.fixedDeltaTime), 0);
                     break;
                 default:
                     _rb2D.velocity = Vector2.zero;
@@ -90,21 +91,23 @@ public class ChickStateMachine : MonoBehaviour
 
             if (_walkCounter < 0)
             {
-                _isWalking= false;
-                _waitCounter = _waitTime;
-            }
                 
+                _isWalking = false;
+                _waitCounter = _waitTime;
+                _isPecking = true;
+            }
+
         }
         else
         {
-            _waitCounter -= Time.deltaTime;
+            _waitCounter -= Time.fixedDeltaTime;
 
             _rb2D.velocity = Vector2.zero;
+
 
             if (_waitCounter < 0)
             {
                 ChooseDirection();
-
             }
         }
     }
@@ -114,6 +117,7 @@ public class ChickStateMachine : MonoBehaviour
         _walkDirection = Random.Range(0, 4);
         _isWalking = true;
         _walkCounter = _walkTime;
+        _isPecking = false;
         
     }
 
@@ -134,26 +138,136 @@ public class ChickStateMachine : MonoBehaviour
         OnStateEnter();
     }
 
-    private void OnStateEnter()
+    void OnStateEnter()
     {
-
+        switch (_currentState)
+        {
+            case ChickenStateMode.LOCOMOTION:
+                break;
+            case ChickenStateMode.PECK:
+                _animator.SetBool("isPecking", true);
+                break;
+            case ChickenStateMode.WALK:
+                _animator.SetBool("isWalking", true);
+                break;
+        }
     }
 
-    private void OnStateUpdate()
+    void OnStateUpdate()
     {
+        switch (_currentState)
+        {
+            case ChickenStateMode.LOCOMOTION:
+                switch (_walkDirection)
+                {
+                    case 0:
+                        _animator.SetFloat("DirectionX", 0);
+                        _animator.SetFloat("DirectionY", 1);
+                        break;
+                    case 1:
+                        _animator.SetFloat("DirectionX", 1);
+                        _animator.SetFloat("DirectionY", 0);
+                        break;
+                    case 2:
+                        _animator.SetFloat("DirectionX", 0);
+                        _animator.SetFloat("DirectionY", -1);
+                        break;
+                    case 3:
+                        _animator.SetFloat("DirectionX", -1);
+                        _animator.SetFloat("DirectionY", 0);
+                        break;
+                }
 
+                if (!_isWalking)
+                {
+                    TransitionToState(ChickenStateMode.PECK);
+                }
+                break;
+
+            case ChickenStateMode.PECK:
+                switch (_walkDirection)
+                {
+                    case 0:
+                        _animator.SetFloat("DirectionX", 0);
+                        _animator.SetFloat("DirectionY", 1);
+                        break;
+                    case 1:
+                        _animator.SetFloat("DirectionX", 1);
+                        _animator.SetFloat("DirectionY", 0);
+                        break;
+                    case 2:
+                        _animator.SetFloat("DirectionX", 0);
+                        _animator.SetFloat("DirectionY", -1);
+                        break;
+                    case 3:
+                        _animator.SetFloat("DirectionX", -1);
+                        _animator.SetFloat("DirectionY", 0);
+                        break;
+                }
+
+                if (_isWalking)
+                {
+                    TransitionToState(ChickenStateMode.WALK);
+                }
+
+                break;
+
+            case ChickenStateMode.WALK:
+                switch (_walkDirection)
+                {
+                    case 0:
+                        _animator.SetFloat("DirectionX", 0);
+                        _animator.SetFloat("DirectionY", 1);
+                        break;
+                    case 1:
+                        _animator.SetFloat("DirectionX", 1);
+                        _animator.SetFloat("DirectionY", 0);
+                        break;
+                    case 2:
+                        _animator.SetFloat("DirectionX", 0);
+                        _animator.SetFloat("DirectionY", -1);
+                        break;
+                    case 3:
+                        _animator.SetFloat("DirectionX", -1);
+                        _animator.SetFloat("DirectionY", 0);
+                        break;
+                }
+
+                if (!_isWalking&&_isPecking)
+                {
+                    TransitionToState(ChickenStateMode.PECK);
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 
-    private void OnStateExit()
+    void OnStateExit()
     {
-
+        switch (_currentState)
+        {
+            case ChickenStateMode.LOCOMOTION:
+                break;
+            case ChickenStateMode.PECK:
+                _animator.SetBool("isPecking", false);
+                break;
+            case ChickenStateMode.WALK:
+                _animator.SetBool("isWalking", false);
+                break;
+        }
     }
 
 
 
-
-
-
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Spell"))
+        {
+            Destroy(gameObject);
+        }
+    }
 
 
 

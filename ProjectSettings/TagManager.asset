@@ -5,14 +5,19 @@ TagManager:
   serializedVersion: 2
   tags:
   - Hit
+  - Spell
+  - Meat
+  - Mob
+  - bgCollider
+  - Fire
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
+  - Spells
   - 
   - 
   - 

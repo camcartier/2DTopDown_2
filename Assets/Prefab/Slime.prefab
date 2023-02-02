@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 1
   m_Sprite: {fileID: -196057497, guid: ec72cd45c85a8cf4ca366456c7cc93f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -115,11 +115,13 @@ GameObject:
   m_Component:
   - component: {fileID: 559103415392935136}
   - component: {fileID: 4647931686865271173}
-  - component: {fileID: 4647931686865271175}
   - component: {fileID: 7498809223125344771}
+  - component: {fileID: 789520913517268633}
+  - component: {fileID: 4647931686865271175}
+  - component: {fileID: 6788085415728145691}
   m_Layer: 0
   m_Name: Slime
-  m_TagString: Untagged
+  m_TagString: Mob
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -160,21 +162,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &4647931686865271175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6228633767590234053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9ac4ff1c7fcd354ca98cc76e45eb899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _followDistance: 4
-  _moveSpeed: 2
+  m_Constraints: 4
 --- !u!58 &7498809223125344771
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -191,3 +179,57 @@ CircleCollider2D:
   m_Offset: {x: -0.004201591, y: 0.3861201}
   serializedVersion: 2
   m_Radius: 0.285291
+--- !u!114 &789520913517268633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6228633767590234053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a178d140ce69cc408b84313be52fccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _knockbackForce: 2000
+  _feebleKnockbackForce: 500
+--- !u!114 &4647931686865271175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6228633767590234053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9ac4ff1c7fcd354ca98cc76e45eb899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _followDistance: 4
+  _moveSpeed: 2
+  _stunTime: 1
+--- !u!114 &6788085415728145691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6228633767590234053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c70cf3b0f66224ba202abd85d52913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 2
+  _currentHealth: 2
+  _minHealth: 0
+  _slimeCollision: 2
+  _playerCollision: 1
+  _batCollision: 0
+  _spellCollision: 0
+  _onSlime: 0
+  _onPlayer: 1
+  _onBat: 0
+  _onChicken: 1
+  _deathparticles: {fileID: 25816176176835479, guid: fcff40c641639994880708d67f36a262, type: 3}
+  _collectible: {fileID: 6923572953806089254, guid: ff407529edda4354dad2167def746363, type: 3}
